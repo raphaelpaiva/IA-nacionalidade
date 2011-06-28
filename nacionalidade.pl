@@ -6,6 +6,10 @@
 %%        Vinicius Bastos Bittencourt
 
 %% Fatos
+nasceu(josefino, brasil).
+nasceu(rosicleia, brasil).
+nasceu(setembriano, brasil).
+
 nasceu(mary, eua).
 nasceu(john, eua).
 nasceu(joao, brasil).
@@ -20,12 +24,16 @@ nasceu(conchita, mexico).
 
 nasceu(ezio, italia).
 
+mae(rosicleia, setembriano).
+
 mae(mary, joao).
 mae(katja, maria).
 
 mae(monica, florinda).
 
 mae(monica, conchita).
+
+pai(josefino, setembriano).
 
 pai(john, joao).
 
@@ -56,6 +64,14 @@ optaNacionalidade(conchita).
 condenacaoPenal(ezio, 0).
 
 %% Cláusulas
+
+%% Caso 0:
+%% Pessoa nasceu no Brasil.
+%% Pais nasceram no Brasil.
+
+nacionalidade(X) :- nasceu(X, brasil),
+                    pai(Pai, X), mae(Mae, X),
+                    nasceu(Pai, brasil), nasceu(Mae, brasil).
 
 %% Caso 1:
 
