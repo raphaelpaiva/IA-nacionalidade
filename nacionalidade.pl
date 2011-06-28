@@ -14,9 +14,9 @@ nasceu(katja, alemanha).
 nasceu(maria, alemanha).
 
 mae(mary, joao).
-pai(john, joao).
-
 mae(katja, maria).
+
+pai(john, joao).
 pai(joao, maria).
 
 trabalha(mary, alemanha).
@@ -49,4 +49,4 @@ nacionalidade(X) :- not(nasceu(X, brasil)),
                     trabalha(Pai, TPaisPai), trabalha(Mae, TPaisMae),
                     (PaisPai=brasil; PaisMae=brasil),
                     (TPaisPai=brasil; TPaisMae=brasil).
-                    
+
