@@ -71,7 +71,6 @@ condenacaoPenal(ezio, 0).
 
 linguaOrigem(adriano, portugues).
 
-
 naoNasceuNoBrasil(X) :- nasceu(X, PaisNascimento),
 			not(PaisNascimento=brasil).
 %% Cláusulas
