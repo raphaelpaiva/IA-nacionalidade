@@ -18,6 +18,8 @@ nasceu(monica, brasil).
 nasceu(florinda, mexico).
 nasceu(conchita, mexico).
 
+nasceu(ezio, italia).
+
 mae(mary, joao).
 mae(katja, maria).
 
@@ -45,9 +47,13 @@ registro(conchita, mexico).
 
 reside(conchita, brasil).
 
+resideHa(ezio, 16, brasil).
+
 maior(conchita).
 
 optaNacionalidade(conchita).
+
+condenacaoPenal(ezio, 0).
 
 %% Cláusulas
 
@@ -103,3 +109,14 @@ nacionalidade(X) :- not(nasceu(X, brasil)),
                     maior(X),
                     reside(X, brasil),
                     optaNacionalidade(X).
+                    
+%% Caso 6:
+
+%% Pessoa nao nasceu no Brasil.
+%% Pessoa reside no Brasil ha mais de 15 anos ininterruptos.
+%% Pessoa nao teve nenhuma condenacao penal.
+
+nacionalidade(X) :- not(nasceu(X, brasil)),
+                    resideHa(X, Tempo, brasil),
+                    condenacaoPenal(X, 0),
+                    Tempo > 15.
