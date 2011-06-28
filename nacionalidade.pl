@@ -16,14 +16,22 @@ nasceu(maria, alemanha).
 nasceu(ramon, mexico).
 nasceu(monica, brasil).
 nasceu(florinda, mexico).
+nasceu(conchita, mexico).
 
 mae(mary, joao).
 mae(katja, maria).
+
 mae(monica, florinda).
 
+mae(monica, conchita).
+
 pai(john, joao).
+
 pai(joao, maria).
+
 pai(ramon, florinda).
+
+pai(ramon, conchita).
 
 trabalha(mary, alemanha).
 trabalha(john, estonia).
@@ -32,6 +40,14 @@ trabalha(joao, estonia).
 trabalha(katja, brasil).
 
 registro(florinda, brasil).
+
+registro(conchita, mexico).
+
+reside(conchita, brasil).
+
+maior(conchita).
+
+optaNacionalidade(conchita).
 
 %% Cláusulas
 
@@ -71,3 +87,19 @@ nacionalidade(X) :- not(nasceu(X, brasil)),
                     mae(Mae, X), nasceu(Mae, PaisMae),
                     (PaisPai=brasil; PaisMae=brasil),
                     registro(X, brasil).
+
+%% Caso 4:
+
+%% Pessoa nasceu no exterior.
+%% Pai ou mae da pessoa eh brasileiro(a).
+%% Pessoa eh maior de idade.
+%% Pessoa reside no Brasil e opta pela nacionalidade brasileira.
+%% (Maioridade no Brasil eh maior ou igual a 18 anos de idade.)
+
+nacionalidade(X) :- not(nasceu(X, brasil)),
+                    pai(Pai, X), nasceu(Pai, PaisPai),
+                    mae(Mae, X), nasceu(Mae, PaisMae),
+                    (PaisPai=brasil; PaisMae=brasil),
+                    maior(X),
+                    reside(X, brasil),
+                    optaNacionalidade(X).
