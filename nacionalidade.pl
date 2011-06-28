@@ -24,6 +24,8 @@ nasceu(conchita, mexico).
 
 nasceu(ezio, italia).
 
+nasceu(adriano, portugal).
+
 mae(rosicleia, setembriano).
 
 mae(mary, joao).
@@ -55,7 +57,11 @@ registro(conchita, mexico).
 
 reside(conchita, brasil).
 
+reside(adriano, brasil).
+
 resideHa(ezio, 16, brasil).
+
+resideHa(adriano, 1, brasil).
 
 maior(conchita).
 
@@ -63,9 +69,15 @@ optaNacionalidade(conchita).
 
 condenacaoPenal(ezio, 0).
 
+linguaOrigem(adriano, portugues).
+
+
+naoNasceuNoBrasil(X) :- nasceu(X, PaisNascimento),
+			not(PaisNascimento=brasil).
 %% Cláusulas
 
 %% Caso 0:
+
 %% Pessoa nasceu no Brasil.
 %% Pais nasceram no Brasil.
 
@@ -91,7 +103,7 @@ nacionalidade(X) :- nasceu(X, brasil),                                        %%
 %% Pai ou mae sao Brasileiros.
 %% Pai ou mae trabalham a servico do Brasil.
 
-nacionalidade(X) :- not(nasceu(X, brasil)),
+nacionalidade(X) :- naoNasceuNoBrasil(X),
                     pai(Pai, X), nasceu(Pai, PaisPai),
                     mae(Mae, X), nasceu(Mae, PaisMae),
                     trabalha(Pai, TPaisPai), trabalha(Mae, TPaisMae),
@@ -104,7 +116,7 @@ nacionalidade(X) :- not(nasceu(X, brasil)),
 %% Pai ou mae da pessoa eh brasileiro(a).
 %% Pessoa registrada em reparticao brasileira.
 
-nacionalidade(X) :- not(nasceu(X, brasil)),
+nacionalidade(X) :- naoNasceuNoBrasil(X),
                     pai(Pai, X), nasceu(Pai, PaisPai),
                     mae(Mae, X), nasceu(Mae, PaisMae),
                     (PaisPai=brasil; PaisMae=brasil),
@@ -118,7 +130,7 @@ nacionalidade(X) :- not(nasceu(X, brasil)),
 %% Pessoa reside no Brasil e opta pela nacionalidade brasileira.
 %% (Maioridade no Brasil eh maior ou igual a 18 anos de idade.)
 
-nacionalidade(X) :- not(nasceu(X, brasil)),
+nacionalidade(X) :- naoNasceuNoBrasil(X),
                     pai(Pai, X), nasceu(Pai, PaisPai),
                     mae(Mae, X), nasceu(Mae, PaisMae),
                     (PaisPai=brasil; PaisMae=brasil),
@@ -126,13 +138,24 @@ nacionalidade(X) :- not(nasceu(X, brasil)),
                     reside(X, brasil),
                     optaNacionalidade(X).
                     
+%% Caso 5:
+%% Pessoa nasceu no exterior.
+%% Pessoa nasceu em pais de lingua portuguesa.
+%% Residencia no Brasil por um ano ininterrupto.
+
+nacionalidade(X) :- naoNasceuNoBrasil(X),
+                    linguaOrigem(X, portugues),
+                    reside(X, brasil),
+                    resideHa(X, Tempo, brasil),
+                    Tempo > 0.
+                    
 %% Caso 6:
 
 %% Pessoa nao nasceu no Brasil.
 %% Pessoa reside no Brasil ha mais de 15 anos ininterruptos.
 %% Pessoa nao teve nenhuma condenacao penal.
 
-nacionalidade(X) :- not(nasceu(X, brasil)),
+nacionalidade(X) :- naoNasceuNoBrasil(X),
                     resideHa(X, Tempo, brasil),
                     condenacaoPenal(X, 0),
                     Tempo > 15.
